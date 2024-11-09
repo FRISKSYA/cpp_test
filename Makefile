@@ -1,11 +1,14 @@
 NAME = cpp98-test-framework
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 -I./include
-
-SRCS = src/test.cpp
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98 
+INCLUDES = -I./include
+SRCS = src/Test.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(NAME)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
