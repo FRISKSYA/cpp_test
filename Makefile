@@ -1,37 +1,56 @@
 NAME = cpp98-test-framework
+
 CXX = c++
-CXXFLAGS = -Wall -Wextra -Werror -std=c++98 
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 INCLUDES = -I./include
-SRCS = src/Test.cpp
+
+SRC_DIR = src
+EXAMPLES_DIR = examples
+TEST_DIRS = basic string_test number_test
+
+# Framework source files
+SRCS = $(SRC_DIR)/Test.cpp
 OBJS = $(SRCS:.cpp=.o)
 
-all: $(NAME)
-
+# Object file compilation rule
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
-$(NAME): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+# Default target
+all: framework examples
 
-examples: $(NAME)
-	$(MAKE) -C examples/basic
-	$(MAKE) -C examples/string_test
+# Framework library
+framework: $(OBJS)
 
-tests: $(NAME)
-	$(MAKE) -C tests
+# Build all examples
+examples: framework
+	@for dir in $(TEST_DIRS); do \
+		echo "\nBuilding examples/$$dir..."; \
+		$(MAKE) -C $(EXAMPLES_DIR)/$$dir; \
+	done
 
+# Run all examples
+run: examples
+	@for dir in $(TEST_DIRS); do \
+		echo "\nRunning examples/$$dir/$$dir..."; \
+		./$(EXAMPLES_DIR)/$$dir/$$dir; \
+	done
+
+# Clean objects
 clean:
 	$(RM) $(OBJS)
-	$(MAKE) -C examples/basic clean
-	$(MAKE) -C examples/string_test clean
-	$(MAKE) -C tests clean
+	@for dir in $(TEST_DIRS); do \
+		echo "Cleaning examples/$$dir..."; \
+		$(MAKE) -C $(EXAMPLES_DIR)/$$dir clean; \
+	done
 
+# Clean everything
 fclean: clean
-	$(RM) $(NAME)
-	$(MAKE) -C examples/basic fclean
-	$(MAKE) -C examples/string_test fclean
-	$(MAKE) -C tests fclean
+	@for dir in $(TEST_DIRS); do \
+		echo "Full cleaning examples/$$dir..."; \
+		$(MAKE) -C $(EXAMPLES_DIR)/$$dir fclean; \
+	done
 
 re: fclean all
 
-.PHONY: all examples tests clean fclean re
+.PHONY: all framework examples run clean fclean re
