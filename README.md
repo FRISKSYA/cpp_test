@@ -61,6 +61,76 @@ int main() {
     return 0;
 }
 ```
+## Using as a Git Submodule
+
+1. Add the framework as a submodule in your project:
+```bash
+# In your project root directory
+git submodule add https://github.com/your-username/cpp98-test-framework.git test/framework
+git submodule init
+git submodule update
+```
+
+2. Project structure after adding the submodule:
+```
+your-project/
+├── test/
+│   ├── framework/          # Cloned test framework
+│   ├── test.cpp           # Your test code
+│   └── Makefile
+└── ... (your project files)
+```
+
+3. Example test/Makefile:
+```makefile
+NAME = test_program
+CXX = c++
+CXXFLAGS = -Wall -Wextra -Werror -std=c++98
+INCLUDES = -I./framework/include
+
+SRCS = framework/src/Test.cpp test.cpp
+OBJS = $(SRCS:.cpp=.o)
+
+all: $(NAME)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
+
+$(NAME): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
+
+clean:
+	$(RM) $(OBJS)
+
+fclean: clean
+	$(RM) $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re
+```
+
+4. Example test code (test.cpp):
+```cpp
+#include "Test.hpp"
+
+void test_your_function() {
+    // Your test cases here
+    Test::assert_true(/* condition */, "Test description");
+    Test::assert_equal(/* expected */, /* actual */, "Test description");
+}
+
+int main() {
+    test_your_function();
+    Test::print_results();
+    return 0;
+}
+```
+
+5. To update the framework in your project:
+```bash
+git submodule update --remote
+```
 
 ## Output Format
 ```
