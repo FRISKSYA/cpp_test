@@ -11,6 +11,7 @@ A minimalist C++98 testing framework designed for educational projects. Features
 - No external dependencies
 - C++98 compatible
 
+
 ## Project Structure
 ```
 cpp98-test-framework/
@@ -65,6 +66,7 @@ int main() {
 ```
 [PASS] Test description
 [FAIL] Test description
+
   Expected: 'expected value'
   Actual:   'actual value'
 
@@ -122,4 +124,3 @@ Check the `examples/` directory for detailed usage examples:
 
 ## License
 This project is open source and available under the MIT License. See the LICENSE file for more info.
-
