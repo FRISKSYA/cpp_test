@@ -7,6 +7,7 @@ INCLUDES = -I./include
 SRC_DIR = src
 EXAMPLES_DIR = examples
 TEST_DIRS = basic string_test number_test
+TESTS_DIR = tests
 
 # Framework source files
 SRCS = $(SRC_DIR)/Test.cpp
@@ -17,7 +18,7 @@ OBJS = $(SRCS:.cpp=.o)
 	$(CXX) $(CXXFLAGS) $(INCLUDES) -c $< -o $@
 
 # Default target
-all: framework examples
+all: framework examples tests
 
 # Framework library
 framework: $(OBJS)
@@ -29,8 +30,16 @@ examples: framework
 		$(MAKE) -C $(EXAMPLES_DIR)/$$dir; \
 	done
 
-# Run all examples
-run: examples
+# Build and run tests
+tests: framework
+	@echo "\nBuilding tests..."
+	@$(MAKE) -C $(TESTS_DIR)
+
+# Run all tests and examples
+run: examples tests
+	@echo "\n=== Running Tests ==="
+	@./$(TESTS_DIR)/test_framework
+	@echo "\n=== Running Examples ==="
 	@for dir in $(TEST_DIRS); do \
 		echo "\nRunning examples/$$dir/$$dir..."; \
 		./$(EXAMPLES_DIR)/$$dir/$$dir; \
@@ -43,6 +52,8 @@ clean:
 		echo "Cleaning examples/$$dir..."; \
 		$(MAKE) -C $(EXAMPLES_DIR)/$$dir clean; \
 	done
+	@echo "Cleaning tests..."
+	@$(MAKE) -C $(TESTS_DIR) clean
 
 # Clean everything
 fclean: clean
@@ -50,7 +61,9 @@ fclean: clean
 		echo "Full cleaning examples/$$dir..."; \
 		$(MAKE) -C $(EXAMPLES_DIR)/$$dir fclean; \
 	done
+	@echo "Full cleaning tests..."
+	@$(MAKE) -C $(TESTS_DIR) fclean
 
 re: fclean all
 
-.PHONY: all framework examples run clean fclean re
+.PHONY: all framework examples tests run clean fclean re

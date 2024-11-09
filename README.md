@@ -3,37 +3,56 @@
 A minimalist C++98 testing framework designed for educational projects. Features include basic assertions, colored terminal output, and test result tracking - all without external dependencies.
 
 ## Features
-- Simple assertion methods
+- Simple assertion methods (true/false, equality, non-equality)
+- String comparison support
+- Numeric comparison support (integers and floating-point numbers)
 - Colored test output in terminal
+- Detailed error reporting
 - No external dependencies
 - C++98 compatible
-- Test result statistics
+
 
 ## Project Structure
 ```
 cpp98-test-framework/
-├── src/
-│   └── Test.cpp
-├── include/
-│   └── Test.hpp
-├── examples/
-│   ├── basic/         # Basic usage examples
-│   └── string_test/   # String comparison tests
-└── tests/             # Framework tests
+├── src/             # Framework source code
+├── include/         # Framework headers
+├── examples/        # Usage examples
+│   ├── basic/      # Basic usage
+│   ├── string_test/# String comparison tests
+│   └── number_test/# Numeric comparison tests
+└── tests/          # Framework tests
+```
+
+## Available Assertions
+```cpp
+// Boolean assertions
+Test::assert_true(condition, message);
+Test::assert_false(condition, message);
+
+// String comparisons
+Test::assert_equal(expected_str, actual_str, message);
+Test::assert_not_equal(expected_str, actual_str, message);
+
+// Numeric comparisons
+Test::assert_equal(expected_int, actual_int, message);
+Test::assert_equal(expected_double, actual_double, message, epsilon);
 ```
 
 ## Basic Usage
-
-1. Include the header
 ```cpp
 #include "Test.hpp"
-```
 
-2. Write your tests
-```cpp
 void test_example() {
-    Test::assert_true(1 == 1, "Basic equality test");
-    Test::assert_equal("hello", "hello", "String equality test");
+    // Boolean test
+    Test::assert_true(1 == 1, "One equals one");
+    
+    // String test
+    Test::assert_equal("hello", "hello", "String equality");
+    
+    // Numeric test
+    Test::assert_equal(42, 42, "Integer equality");
+    Test::assert_equal(3.14, 3.14159, "Double equality", 0.01);
 }
 
 int main() {
@@ -43,33 +62,45 @@ int main() {
 }
 ```
 
-## Available Assertions
-- `assert_true(condition, message)`: Tests if a condition is true
-- `assert_equal(expected, actual, message)`: Tests if two values are equal
-
 ## Output Format
 ```
-[PASS] Basic equality test
-[FAIL] Failed test description
+[PASS] Test description
+[FAIL] Test description
+
   Expected: 'expected value'
   Actual:   'actual value'
 
 Test Results:
-Passed: 1
-Failed: 1
-Total:  2
+Passed: X
+Failed: Y
+Total:  Z
 ```
 
 ## Build and Run
+
+1. Build the framework and all examples:
 ```bash
-# Build the framework and examples
 make
+```
 
-# Run basic tests example
-cd examples/basic && ./basic_test
+2. Run specific tests:
+```bash
+# Run basic tests
+./examples/basic/basic_test
 
-# Run string tests example
-cd examples/string_test && ./string_test
+# Run string tests
+./examples/string_test/string_test
+
+# Run numeric tests
+./examples/number_test/number_test
+
+# Run framework tests
+./tests/test_framework
+```
+
+3. Run all tests:
+```bash
+make run
 ```
 
 ## Requirements
@@ -80,11 +111,16 @@ cd examples/string_test && ./string_test
 - -Wall -Wextra -Werror
 - -std=c++98
 
-## Future Improvements
-- Additional assertion types
-- Customizable output formats
-- Numerical comparison support
-- Test suite organization
+## Development
+- Clean build files: `make clean`
+- Clean all generated files: `make fclean`
+- Rebuild everything: `make re`
+
+## Examples
+Check the `examples/` directory for detailed usage examples:
+- `basic/`: Basic assertion usage
+- `string_test/`: String comparison examples
+- `number_test/`: Numeric comparison examples
 
 ## License
-This project is open source.
+This project is open source and available under the MIT License. See the LICENSE file for more info.
