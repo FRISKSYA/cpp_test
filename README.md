@@ -66,7 +66,7 @@ int main() {
 1. Add the framework as a submodule in your project:
 ```bash
 # In your project root directory
-git submodule add https://github.com/your-username/cpp98-test-framework.git test/framework
+git submodule add https://github.com/FRISKSYA/cpp98-test-framework.git test/framework
 git submodule init
 git submodule update
 ```
