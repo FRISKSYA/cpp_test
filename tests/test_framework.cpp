@@ -73,14 +73,11 @@ void test_double_equality() {
 void test_edge_cases() {
     std::cout << "\n\033[1m=== Edge Cases Tests ===\033[0m\n";
 
-    // 空文字列のテスト
     Test::assert_equal("", "", "Empty string comparison");
     Test::assert_not_equal("", "non-empty", "Empty and non-empty string comparison");
 
-    // 特殊文字のテスト
     Test::assert_equal("\n\t\r", "\n\t\r", "Special characters comparison");
     
-    // 極端な数値のテスト
     Test::assert_equal(2147483647, 2147483647, "MAX_INT comparison");
     Test::assert_equal(-2147483648, -2147483648, "MIN_INT comparison");
 }
