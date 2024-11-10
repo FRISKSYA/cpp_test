@@ -37,7 +37,7 @@ void test_multiple_assertions() {
 }
 
 int main() {
-    std::cout << "\n\033[1m=== Basic Assertion Tests ===\033[0m\n";  // 太字化
+    std::cout << "\n\033[1m=== Basic Assertion Tests ===\033[0m\n";
     test_basic_assertions();
     
     std::cout << "\n\033[1m=== Multiple Assertion Tests ===\033[0m\n";
